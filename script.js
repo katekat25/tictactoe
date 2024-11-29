@@ -9,9 +9,18 @@ const gameboard = (function () {
 
     const getGameboard = () => _array;
 
-    const makeMove = (cellRow, cellColumn) => {
-        _array[cellRow][cellColumn] = "X";
+    const printGameboard = () => console.log(_array);
+
+    const makeMove = (player, cellRow, cellColumn) => {
+        let activeCell = _array[cellRow][cellColumn];
+        if (activeCell === "X" || activeCell === "O") return;
+        if (player == 1) {
+            activeCell = "X";
+        } else if (player == 2) {
+            activeCell = "O";
+        }
+        _array[cellRow][cellColumn] = activeCell;
     }
 
-    return {getGameboard, makeMove};
+    return {getGameboard, printGameboard, makeMove};
 })();
