@@ -1,1 +1,9 @@
-alert("JS is working");
+
+
+let gameboard = (function(){
+    let array = [
+        [0,0,0],
+        [0,0,0],
+        [0,0,0]
+    ];
+})();
