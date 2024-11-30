@@ -18,7 +18,7 @@ const gameboard = (function () {
 
     const printGameboard = () => {
         const filledBoard = _array.map((row) => row.map((cell) => cell.getValue()));
-        // console.log(filledBoard);
+        console.log(filledBoard);
     };
 
     const makeMove = (player, cellRow, cellColumn) => {
@@ -60,3 +60,32 @@ function Cell() {
 
     return { fillCell, getValue };
 }
+
+const playerController = (function () {
+    let playerOneName = "Player 1";
+    let playerTwoName = "Player 2";
+
+    const players = [
+        {
+            name: playerOneName,
+            playerValue: 1
+        },
+        {
+            name: playerTwoName,
+            playerValue: 2
+        }
+    ];
+
+    let activePlayer = players[0];
+
+    const getActivePlayer = () => activePlayer;
+
+    function playRound(row, column) {
+        console.log(`${getActivePlayer().name}'s turn.`);
+        gameboard.makeMove(activePlayer.playerValue, row, column);
+        activePlayer = activePlayer === players[0] ? players[1]: players[0];
+    }
+
+    return { playRound }
+
+})();
