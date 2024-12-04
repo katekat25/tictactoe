@@ -144,6 +144,7 @@ const playerController = (function () {
     const resetGame = () => {
         gameboard.clearGameboard();
         displayController.initializeDisplay();
+        displayController.setAlert(`${players[0].name}'s move.`);
         roundcount = 0;
         activePlayer = players[0];
     }
@@ -156,6 +157,7 @@ const displayController = (function () {
 
     const gameboardContainer = document.querySelector("#container");
     const alertContainer = document.querySelector(".alerts");
+    const button = document.querySelector("button");
 
     const initializeDisplay = () => {
         //clear previous board state, if any
@@ -178,6 +180,10 @@ const displayController = (function () {
                 gameboardContainer.appendChild(cell);
             }
         }
+        button.addEventListener("click", () => {
+            playerController.resetGame();
+        });
+
     }
 
     const setAlert = (message) => {
@@ -191,4 +197,4 @@ const displayController = (function () {
 })();
 
 displayController.initializeDisplay();
-displayController.setAlert("Player 1's move.");
+displayController.setAlert(`${playerController.getActivePlayer().name}'s move.`);

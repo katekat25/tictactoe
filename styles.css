@@ -30,3 +30,7 @@
 .alerts {
     border: 1px solid black;
 }
+
+button {
+    height: 50px;
+}
