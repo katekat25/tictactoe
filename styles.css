@@ -2,6 +2,11 @@
     color: red;
 }
 
+.wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
 #container {
     width: 500px;
     height: 500px;
@@ -12,6 +17,7 @@
 
 .cell {
     border: 5px solid blue;
+    text-align: center;
 }
 
 .empty {
@@ -19,3 +25,6 @@
     user-select: none;
 }
 
+.alerts {
+    border: 1px solid black;
+}

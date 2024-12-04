@@ -76,7 +76,6 @@ const gameboard = (function () {
             }
             //if board is filled with no win
             if (roundCount == 8) {
-                console.log("It's a tie.");
                 return 2;
             }
         }
@@ -123,14 +122,14 @@ const playerController = (function () {
 
     const playRound = (row, column) => {
         let board = gameboard.getGameboard();
-        if (board[row][column].getValue() == 0) {
+        if (board[row][column].getValue() === 0) {
             gameboard.makeMove(activePlayer.playerValue, row, column);
             console.log(gameboard.printGameboard());
             gameboard.checkWin();
-            if (gameboard.checkWin() == 1) {
+            if (gameboard.checkWin() === 1) {
                 displayController.setAlert(`${activePlayer.name} wins!`);
                 return;
-            } else if (gameboard.checkWin() == 2) {
+            } else if (gameboard.checkWin() === 2) {
                 displayController.setAlert("It's a tie!");
                 return;
             }
