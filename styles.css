@@ -13,3 +13,9 @@
 .cell {
     border: 5px solid blue;
 }
+
+.empty {
+    color: transparent;
+    user-select: none;
+}
+

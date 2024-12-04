@@ -134,7 +134,6 @@ const playerController = (function () {
         if (board[row][column].getValue() == 0) {
             console.log(`${getActivePlayer().name}'s turn.`);
             gameboard.makeMove(activePlayer.playerValue, row, column);
-            displayController.drawDisplay();
             console.log(gameboard.printGameboard());
             gameboard.checkWin();
             activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -146,6 +145,7 @@ const playerController = (function () {
 
     const resetGame = () => {
         gameboard.clearGameboard();
+        displayController.initializeDisplay();
         roundcount = 0;
         activePlayer = players[0];
     }
@@ -155,7 +155,7 @@ const playerController = (function () {
 })();
 
 const displayController = (function () {
-    const drawDisplay = () => {
+    const initializeDisplay = () => {
         const container = document.querySelector("#container");
         //clear previous board state, if any
         container.innerHTML = "";
@@ -167,17 +167,19 @@ const displayController = (function () {
                 //if i don't do this i and j always equal 3
                 let cellX = i;
                 let cellY = j;
-                cell.classList.add("cell");
+                cell.classList.add("cell", "empty");
                 cell.textContent = board[i][j].getValue();
                 cell.addEventListener("click", () => {
                     playerController.playRound(cellX, cellY);
+                    cell.classList.remove("empty");
+                    cell.textContent = board[cellX][cellY].getValue();
                 });
                 container.appendChild(cell);
             }
         }
     }
     
-    return { drawDisplay }
+    return { initializeDisplay }
 })();
 
-displayController.drawDisplay();
+displayController.initializeDisplay();
