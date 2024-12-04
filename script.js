@@ -5,23 +5,20 @@ const gameboard = (function () {
     const rows = 3;
     const columns = 3;
     let winningCombos = [
-        //horizontal
+        //horizontal coordinates
         [[0, 0], [0, 1], [0, 2]],
         [[1, 0], [1, 1], [1, 2]],
         [[2, 0], [2, 1], [2, 2]],
-        //vertical
+        //vertical coordinates
         [[0, 0], [1, 0], [2, 0]],
         [[0, 1], [1, 1], [2, 1]],
         [[0, 2], [1, 2], [2, 2]],
-        //diagonal
+        //diagonal coordinates
         [[0, 0], [1, 1], [2, 2]],
         [[2, 0], [1, 1], [0, 2]]
     ];
 
-    console.log(winningCombos[0][0].toString().split(","));
-
     //Initialize game board with empty cells
-
     for (let i = 0; i < rows; i++) {
         _array[i] = [];
         for (let j = 0; j < columns; j++) {
@@ -54,7 +51,7 @@ const gameboard = (function () {
         }
     }
 
-    function checkWin() {
+    const checkWin = () => {
         function getCoord(x, y) {
             let coord = winningCombos[x][y]
                 .toString()
@@ -127,7 +124,7 @@ const playerController = (function () {
 
     const getRoundCount = () => roundCount;
 
-    function playRound(row, column) {
+    const playRound = (row, column) => {
         if (gameboard.getValueAtCoord(row, column) == 0) {
             console.log(`${getActivePlayer().name}'s turn.`);
             gameboard.makeMove(activePlayer.playerValue, row, column);
@@ -149,3 +146,5 @@ const playerController = (function () {
     return { playRound, getRoundCount, getActivePlayer, resetGame }
 
 })();
+
+
