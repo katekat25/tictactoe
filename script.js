@@ -147,4 +147,25 @@ const playerController = (function () {
 
 })();
 
+const displayController = (function () {
+    const drawDisplay = () => {
+        const container = document.querySelector("#container");
+        console.log(document.querySelector("#container"));
+        let board = gameboard.getGameboard();
+        console.log(board.length);
+        for (i = 0; i < board.length; i++) {
+            for (j = 0; j < board.length; j++) {
+                console.log("In i and j loop creaing cells, supposedly.");
+                let cell = document.createElement("div");
+                console.log(board[i][j]);
+                cell.classList.add("cell");
+                cell.textContent = board[i][j].getValue();
+                container.appendChild(cell);
+            }
+        }
+    }
+    
+    return { drawDisplay }
+})();
 
+displayController.drawDisplay();
