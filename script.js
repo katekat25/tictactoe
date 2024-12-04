@@ -28,12 +28,12 @@ const gameboard = (function () {
 
     const getGameboard = () => _array;
 
-    const getValueAtCoord = (x,y) => _array[x][y].getValue();
-
     const printGameboard = () => {
         const filledBoard = _array.map((row) => row.map((cell) => cell.getValue()));
         console.log(filledBoard);
     };
+
+    const getValueAtCoord = (x,y) => _array[x][y].getValue();
 
     const makeMove = (player, cellRow, cellColumn) => {
         let activeCell = _array[cellRow][cellColumn].getValue();
@@ -85,7 +85,7 @@ const gameboard = (function () {
         }
     }
 
-    return { getGameboard, getValueAtCoord, printGameboard, clearGameboard, makeMove, checkWin };
+    return { getGameboard, printGameboard, clearGameboard, makeMove, checkWin };
 })();
 
 function Cell() {
@@ -125,9 +125,16 @@ const playerController = (function () {
     const getRoundCount = () => roundCount;
 
     const playRound = (row, column) => {
-        if (gameboard.getValueAtCoord(row, column) == 0) {
+        let board = gameboard.getGameboard();
+        console.log(row);
+        console.log(column);
+        console.log(board);
+        console.log(board[row]);
+        console.log(board[row][column]);
+        if (board[row][column].getValue() == 0) {
             console.log(`${getActivePlayer().name}'s turn.`);
             gameboard.makeMove(activePlayer.playerValue, row, column);
+            displayController.drawDisplay();
             console.log(gameboard.printGameboard());
             gameboard.checkWin();
             activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -150,16 +157,21 @@ const playerController = (function () {
 const displayController = (function () {
     const drawDisplay = () => {
         const container = document.querySelector("#container");
-        console.log(document.querySelector("#container"));
+        //clear previous board state, if any
+        container.innerHTML = "";
         let board = gameboard.getGameboard();
-        console.log(board.length);
+        //loop through gameboard, getting updated cell values
         for (i = 0; i < board.length; i++) {
             for (j = 0; j < board.length; j++) {
-                console.log("In i and j loop creaing cells, supposedly.");
                 let cell = document.createElement("div");
-                console.log(board[i][j]);
+                //if i don't do this i and j always equal 3
+                let cellX = i;
+                let cellY = j;
                 cell.classList.add("cell");
                 cell.textContent = board[i][j].getValue();
+                cell.addEventListener("click", () => {
+                    playerController.playRound(cellX, cellY);
+                });
                 container.appendChild(cell);
             }
         }
