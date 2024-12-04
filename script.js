@@ -37,9 +37,6 @@ const gameboard = (function () {
 
     const makeMove = (player, cellRow, cellColumn) => {
         let activeCell = _array[cellRow][cellColumn].getValue();
-        if (activeCell === 1 || activeCell === 2) {
-            return;
-        }
         _array[cellRow][cellColumn].fillCell(player);
     }
 
@@ -63,17 +60,16 @@ const gameboard = (function () {
         let roundCount = playerController.getRoundCount();
         //if first player has had time to play at least 3 tokens
         if (roundCount >= 4 && roundCount <= 8) {
-            let activePlayerValue = playerController.getActivePlayer().playerValue;
+            let activePlayer = playerController.getActivePlayer();
             //loop through winningCombos and check if value at each coord equals the current player's value
             for (i = 0; i < winningCombos.length; i++) {
                 let coord = getCoord(i, 0);
-                if (_array[coord[0]][coord[1]].getValue() == activePlayerValue) {
+                if (_array[coord[0]][coord[1]].getValue() == activePlayer.playerValue) {
                     coord = getCoord(i, 1);
-                    if (_array[coord[0]][coord[1]].getValue() == activePlayerValue) {
+                    if (_array[coord[0]][coord[1]].getValue() == activePlayer.playerValue) {
                         coord = getCoord(i, 2);
-                        if (_array[coord[0]][coord[1]].getValue() == activePlayerValue) {
-                            console.log("Player " + activePlayerValue + " wins!");
-                            return;
+                        if (_array[coord[0]][coord[1]].getValue() == activePlayer.playerValue) {
+                            return 1;
                         }
                     }
                 }
@@ -81,6 +77,7 @@ const gameboard = (function () {
             //if board is filled with no win
             if (roundCount == 8) {
                 console.log("It's a tie.");
+                return 2;
             }
         }
     }
@@ -126,20 +123,22 @@ const playerController = (function () {
 
     const playRound = (row, column) => {
         let board = gameboard.getGameboard();
-        console.log(row);
-        console.log(column);
-        console.log(board);
-        console.log(board[row]);
-        console.log(board[row][column]);
         if (board[row][column].getValue() == 0) {
-            console.log(`${getActivePlayer().name}'s turn.`);
             gameboard.makeMove(activePlayer.playerValue, row, column);
             console.log(gameboard.printGameboard());
             gameboard.checkWin();
+            if (gameboard.checkWin() == 1) {
+                displayController.setAlert(`${activePlayer.name} wins!`);
+                return;
+            } else if (gameboard.checkWin() == 2) {
+                displayController.setAlert("It's a tie!");
+                return;
+            }
             activePlayer = activePlayer === players[0] ? players[1] : players[0];
+            displayController.setAlert(`${activePlayer.name}'s move.`);
             roundCount++;
         } else {
-            console.log("A move has already been made at that square. Please try again.");
+            displayController.setAlert("A move has already been made at that square. Please try again.");
         }
     }
 
@@ -155,10 +154,13 @@ const playerController = (function () {
 })();
 
 const displayController = (function () {
+
+    const gameboardContainer = document.querySelector("#container");
+    const alertContainer = document.querySelector(".alerts");
+
     const initializeDisplay = () => {
-        const container = document.querySelector("#container");
         //clear previous board state, if any
-        container.innerHTML = "";
+        gameboardContainer.innerHTML = "";
         let board = gameboard.getGameboard();
         //loop through gameboard, getting updated cell values
         for (i = 0; i < board.length; i++) {
@@ -174,12 +176,20 @@ const displayController = (function () {
                     cell.classList.remove("empty");
                     cell.textContent = board[cellX][cellY].getValue();
                 });
-                container.appendChild(cell);
+                gameboardContainer.appendChild(cell);
             }
         }
     }
+
+    const setAlert = (message) => {
+        alertContainer.innerHTML = "";
+        let messageBox = document.createElement("div");
+        messageBox.textContent = message;
+        alertContainer.appendChild(messageBox);
+    }
     
-    return { initializeDisplay }
+    return { initializeDisplay, setAlert }
 })();
 
 displayController.initializeDisplay();
+displayController.setAlert("Player 1's move.");
