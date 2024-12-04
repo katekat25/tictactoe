@@ -107,11 +107,11 @@ const playerController = (function () {
     const players = [
         {
             name: playerOneName,
-            playerValue: 1
+            playerValue: "X"
         },
         {
             name: playerTwoName,
-            playerValue: 2
+            playerValue: "O"
         }
     ];
     let activePlayer = players[0];
