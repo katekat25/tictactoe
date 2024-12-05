@@ -45,7 +45,6 @@ const gameboard = (function () {
         if (roundCount >= 4 && roundCount <= 8) {
             const activePlayer = playerController.getActivePlayer();
             //loop through winningCombos and check if value at each coord equals the current player's value
-            //also ChatGPT did this "combo of winningCombos" thing pls explain it to me?
             for (const combo of winningCombos) {
                 if (combo.every(([x, y]) => _array[x][y].getValue() === activePlayer.playerValue)) {
                     return "win";
