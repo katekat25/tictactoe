@@ -44,29 +44,14 @@ const gameboard = (function () {
     }
 
     const checkWin = () => {
-        function getCoord(x, y) {
-            let coord = winningCombos[x][y]
-                .toString()
-                .split(",");
-            coord[0] = Number(coord[0]);
-            coord[1] = Number(coord[1]);
-            return coord;
-        }
         let roundCount = playerController.getRoundCount();
         //if first player has had time to play at least 3 tokens
         if (roundCount >= 4 && roundCount <= 8) {
-            let activePlayer = playerController.getActivePlayer();
+            const activePlayer = playerController.getActivePlayer();
             //loop through winningCombos and check if value at each coord equals the current player's value
-            for (i = 0; i < winningCombos.length; i++) {
-                let coord = getCoord(i, 0);
-                if (_array[coord[0]][coord[1]].getValue() == activePlayer.playerValue) {
-                    coord = getCoord(i, 1);
-                    if (_array[coord[0]][coord[1]].getValue() == activePlayer.playerValue) {
-                        coord = getCoord(i, 2);
-                        if (_array[coord[0]][coord[1]].getValue() == activePlayer.playerValue) {
-                            return 1;
-                        }
-                    }
+            for (const combo of winningCombos) {
+                if (combo.every(([x, y]) => _array[x][y].getValue() === activePlayer.playerValue)) {
+                    return 1;
                 }
             }
             //if board is filled with no win
