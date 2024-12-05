@@ -20,6 +20,10 @@ h2 {
     width: 100%;
 }
 
+a {
+    color: #743884;
+}
+
 .wrapper {
     display: flex;
     justify-content: space-around;
