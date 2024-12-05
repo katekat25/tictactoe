@@ -129,30 +129,34 @@ const displayController = (function () {
     const modalBackground = document.createElement("div");
 
     const initializeDisplay = () => {
-        //clear previous board state, if any
+        // Clear previous board state, if any
         gameboardContainer.innerHTML = "";
         let board = gameboard.getGameboard();
-        //loop through gameboard, getting updated cell values
-        for (i = 0; i < board.length; i++) {
-            for (j = 0; j < board.length; j++) {
-                let cell = document.createElement("div");
-                //if i don't do this i and j always equal 3
-                let cellX = i;
-                let cellY = j;
-                cell.classList.add("cell", "empty");
-                cell.textContent = board[i][j].getValue();
-                cell.addEventListener("click", () => {
-                    playerController.playRound(cellX, cellY);
-                    cell.classList.remove("empty");
-                    cell.textContent = board[cellX][cellY].getValue();
+
+        // Loop through gameboard, getting updated cell values
+        board.forEach((row, i) => {
+            row.forEach((cell, j) => {
+                let cellElement = document.createElement("div");
+
+                // Add cell classes and text
+                cellElement.classList.add("cell", "empty");
+                cellElement.textContent = cell.getValue();
+
+                // Event listener for handling moves
+                cellElement.addEventListener("click", () => {
+                    playerController.playRound(i, j);
+                    cellElement.classList.remove("empty");
+                    cellElement.textContent = board[i][j].getValue();
                 });
-                gameboardContainer.appendChild(cell);
-            }
-        }
+
+                gameboardContainer.appendChild(cellElement);
+            });
+        });
+
+        // Event listener for reset button
         button.addEventListener("click", () => {
             playerController.resetGame();
         });
-
     }
 
     const setAlert = (message) => {
@@ -163,70 +167,81 @@ const displayController = (function () {
     }
 
     const setOpeningModal = () => {
-        //God save us all
-        let container = document.querySelector(".modal");
+        const container = document.querySelector(".modal");
         container.innerHTML = "";
-        let wrapper = document.createElement("div");
+    
+        // Modal background and wrapper
         modalBackground.classList.add("modal-background");
+        const wrapper = document.createElement("div");
         wrapper.classList.add("modal-container");
         wrapper.style.backgroundColor = "white";
         container.appendChild(modalBackground);
         modalBackground.appendChild(wrapper);
-        let text = document.createElement("div");
+    
+        // Modal content
+        const text = document.createElement("div");
         text.classList.add("modal-text");
         text.textContent = "New Game";
-        let p1Label = document.createElement("label");
+    
+        const p1Label = document.createElement("label");
         p1Label.htmlFor = "p1Name";
         p1Label.textContent = "Player 1 name:";
-        let p1Name = document.createElement("input");
-        p1Name.classList.add("player-name-input");
+    
+        const p1Name = document.createElement("input");
         p1Name.id = "p1Name";
         p1Name.type = "text";
-        let p2Label = document.createElement("label");
+        p1Name.classList.add("player-name-input");
+    
+        const p2Label = document.createElement("label");
         p2Label.htmlFor = "p2Name";
         p2Label.textContent = "Player 2 name:";
-        let p2Name = document.createElement("input");
-        p2Name.classList.add("player-name-input");
+    
+        const p2Name = document.createElement("input");
         p2Name.id = "p2Name";
         p2Name.type = "text";
-        let startButton = document.createElement("button");
+        p2Name.classList.add("player-name-input");
+    
+        // Start button
+        const startButton = document.createElement("button");
         startButton.textContent = "Begin";
         startButton.addEventListener("click", (e) => {
             e.preventDefault();
-            playerController.setPlayerOneName(p1Name.value);
-            playerController.setPlayerTwoName(p2Name.value);
+            playerController.setPlayerName(0, p1Name.value);
+            playerController.setPlayerName(1, p2Name.value);
             displayController.setAlert(`${playerController.getActivePlayer().name}'s move.`);
             wrapper.style.display = "none";
             modalBackground.style.display = "none";
-        })
+        });
+    
+        // Append elements to wrapper
         wrapper.appendChild(text);
         wrapper.appendChild(p1Label);
         wrapper.appendChild(p1Name);
         wrapper.appendChild(p2Label);
         wrapper.appendChild(p2Name);
         wrapper.appendChild(startButton);
-    }
-
+    };
+    
     const setWinModal = (winningPlayer, tieOrWin) => {
-        //we're not teaching you jQuery because you dont need it! :D
-        let container = document.querySelector(".modal");
+        const container = document.querySelector(".modal");
         container.innerHTML = "";
+    
+        // Modal background and wrapper
         modalBackground.style.display = "initial";
-        let wrapper = document.createElement("div");
         modalBackground.classList.add("modal-background");
+        const wrapper = document.createElement("div");
         wrapper.classList.add("modal-container");
         wrapper.style.backgroundColor = "white";
         container.appendChild(modalBackground);
         modalBackground.appendChild(wrapper);
-        let text = document.createElement("div");
+    
+        // Modal content
+        const text = document.createElement("div");
         text.classList.add("modal-text");
-        if (tieOrWin === "win") {
-            text.textContent = `${winningPlayer.name} wins!`;
-        } else if (tieOrWin === "tie") {
-            text.textContent = "It's a tie!";
-        }
-        wrapper.appendChild(text);
-        let playAgainButton = document.createElement("button");
+        text.textContent = tieOrWin === "win" ? `${winningPlayer.name} wins!` : "It's a tie!";
+    
+        // Play again button
+        const playAgainButton = document.createElement("button");
         playAgainButton.textContent = "Play again";
         playAgainButton.addEventListener("click", (e) => {
             e.preventDefault();
@@ -235,9 +250,12 @@ const displayController = (function () {
             wrapper.style.display = "none";
             modalBackground.style.display = "none";
         });
-        wrapper.appendChild(playAgainButton);
-    }
     
+        // Append elements to wrapper
+        wrapper.appendChild(text);
+        wrapper.appendChild(playAgainButton);
+    };    
+
     return { initializeDisplay, setAlert, setOpeningModal, setWinModal }
 })();
 
