@@ -12,6 +12,15 @@
     flex-direction: column;
 }
 
+.modal-background {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(0,0,0,0.4);
+}
+
 .modal-container {
     position: absolute;
     z-index: 1;

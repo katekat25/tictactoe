@@ -167,6 +167,7 @@ const displayController = (function () {
     const gameboardContainer = document.querySelector("#container");
     const alertContainer = document.querySelector(".alerts");
     const button = document.querySelector("button");
+    const modalBackground = document.createElement("div");
 
     const initializeDisplay = () => {
         //clear previous board state, if any
@@ -205,10 +206,13 @@ const displayController = (function () {
     const setOpeningModal = () => {
         //God save us all
         let container = document.querySelector(".modal");
+        container.innerHTML = "";
         let wrapper = document.createElement("div");
+        modalBackground.classList.add("modal-background");
         wrapper.classList.add("modal-container");
         wrapper.style.backgroundColor = "gray";
-        container.appendChild(wrapper);
+        container.appendChild(modalBackground);
+        modalBackground.appendChild(wrapper);
         let text = document.createElement("div");
         text.classList.add("modal-text");
         text.textContent = "New Game";
@@ -234,6 +238,7 @@ const displayController = (function () {
             playerController.setPlayerTwoName(p2Name.value);
             displayController.setAlert(`${playerController.getActivePlayer().name}'s move.`);
             wrapper.style.display = "none";
+            modalBackground.style.display = "none";
         })
         wrapper.appendChild(text);
         wrapper.appendChild(p1Label);
@@ -246,10 +251,14 @@ const displayController = (function () {
     const setWinModal = (winningPlayer, tieOrWin) => {
         //we're not teaching you jQuery because you dont need it! :D
         let container = document.querySelector(".modal");
+        container.innerHTML = "";
+        modalBackground.style.display = "initial";
         let wrapper = document.createElement("div");
+        modalBackground.classList.add("modal-background");
         wrapper.classList.add("modal-container");
         wrapper.style.backgroundColor = "gray";
-        container.appendChild(wrapper);
+        container.appendChild(modalBackground);
+        modalBackground.appendChild(wrapper);
         let text = document.createElement("div");
         text.classList.add("modal-text");
         if (tieOrWin === "win") {
@@ -265,6 +274,7 @@ const displayController = (function () {
             playerController.resetGame();
             displayController.setAlert(`${playerController.getActivePlayer().name}'s move.`);
             wrapper.style.display = "none";
+            modalBackground.style.display = "none";
         });
         wrapper.appendChild(playAgainButton);
     }
