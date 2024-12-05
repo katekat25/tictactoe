@@ -28,11 +28,6 @@ const gameboard = (function () {
 
     const getGameboard = () => _array;
 
-    const printGameboard = () => {
-        const filledBoard = _array.map((row) => row.map((cell) => cell.getValue()));
-        console.log(filledBoard);
-    };
-
     const getValueAtCoord = (x,y) => _array[x][y].getValue();
 
     const makeMove = (player, cellRow, cellColumn) => {
@@ -81,7 +76,7 @@ const gameboard = (function () {
         }
     }
 
-    return { getGameboard, printGameboard, clearGameboard, makeMove, checkWin };
+    return { getGameboard, clearGameboard, makeMove, checkWin };
 })();
 
 function Cell() {
