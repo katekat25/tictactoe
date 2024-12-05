@@ -1,34 +1,38 @@
+/* Importing font */
 @import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap');
 
+/* Global styles */
 body {
     font-family: "Kosugi Maru", sans-serif;
-    background-image: url('images/gradient.jpg');
+    background: url('images/gradient.jpg') no-repeat center center fixed;
     background-size: cover;
 }
 
+/* Heading styles */
 h1 {
     text-align: center;
     font-size: 2rem;
 }
 
 h2 {
-    font-size: 1rem;
     text-align: center;
+    font-size: 1rem;
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
 }
 
+/* Link styles */
 a {
     color: #743884;
 }
 
+/* Wrapper styles */
 .wrapper {
     display: flex;
     justify-content: space-around;
-    margin-left: 100px;
-    margin-right: 100px;
+    margin: 0 100px;
 }
 
 .right-wrapper {
@@ -38,56 +42,58 @@ a {
     width: 300px;
 }
 
+/* Modal styles */
 .modal-background {
     position: fixed;
-    left: 0;
     top: 0;
-    height: 100%;
+    left: 0;
     width: 100%;
-    background-color: rgb(0,0,0,0.4);
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-container {
     position: absolute;
-    z-index: 1;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
-    justify-content: space-evenly;
     flex-direction: column;
-    padding: 100px;
+    justify-content: space-evenly;
     gap: 20px;
+    padding: 100px;
     font-size: 3rem;
-    border-radius: 5px;
     border: 1px solid black;
+    border-radius: 5px;
 }
 
+/* Form element styles */
 label {
     font-size: 2rem;
 }
 
 input {
     height: 25px;
-    border-radius: 5px;
     border: 1px solid gray;
+    border-radius: 5px;
 }
 
+/* Grid container and cell styles */
 #container {
+    display: grid;
     width: 500px;
     height: 500px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
 }
 
 .cell {
-    border: 5px solid blue;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 4rem;
     background-color: white;
+    border: 5px solid blue;
 }
 
 .empty {
@@ -95,14 +101,16 @@ input {
     user-select: none;
 }
 
+/* Alerts styles */
 .alerts {
-    border: 1px solid black;
     font-size: 2rem;
+    border: 1px solid black;
 }
 
+/* Button styles */
 button {
     height: 50px;
     font-size: 1.5rem;
-    border-radius: 5px;
     border: 1px solid gray;
+    border-radius: 5px;
 }
