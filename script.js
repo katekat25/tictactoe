@@ -192,9 +192,51 @@ const displayController = (function () {
         messageBox.textContent = message;
         alertContainer.appendChild(messageBox);
     }
+
+    const setOpeningModal = () => {
+        //God save us all
+        let container = document.querySelector(".modal");
+        let wrapper = document.createElement("div");
+        wrapper.classList.add("modal-container");
+        wrapper.style.backgroundColor = "gray";
+        container.appendChild(wrapper);
+        let text = document.createElement("div");
+        text.classList.add("modal-text");
+        text.textContent = "New Game";
+        let p1Label = document.createElement("label");
+        p1Label.htmlFor = "p1Name";
+        p1Label.textContent = "Player 1 name:";
+        let p1Name = document.createElement("input");
+        p1Name.classList.add("player-name-input");
+        p1Name.id = "p1Name";
+        p1Name.type = "text";
+        let p2Label = document.createElement("label");
+        p2Label.htmlFor = "p2Name";
+        p2Label.textContent = "Player 2 name:";
+        let p2Name = document.createElement("input");
+        p2Name.classList.add("player-name-input");
+        p2Name.id = "p2Name";
+        p2Name.type = "text";
+        let startButton = document.createElement("button");
+        startButton.textContent = "Begin";
+        startButton.addEventListener("click", () => {
+            wrapper.style.display = "none";
+        })
+        wrapper.appendChild(text);
+        wrapper.appendChild(p1Label);
+        wrapper.appendChild(p1Name);
+        wrapper.appendChild(p2Label);
+        wrapper.appendChild(p2Name);
+        wrapper.appendChild(startButton);
+    }
+
+    const setWinModal = () => {
+
+    }
     
-    return { initializeDisplay, setAlert }
+    return { initializeDisplay, setAlert, setOpeningModal, setWinModal }
 })();
 
 displayController.initializeDisplay();
+displayController.setOpeningModal();
 displayController.setAlert(`${playerController.getActivePlayer().name}'s move.`);

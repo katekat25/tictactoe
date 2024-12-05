@@ -7,6 +7,33 @@
     justify-content: space-around;
 }
 
+.right-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-container {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    padding: 100px;
+    gap: 20px;
+    font-size: 3rem;
+}
+
+label {
+    font-size: 2rem;
+}
+
+input {
+    height: 25px;
+}
+
 #container {
     width: 500px;
     height: 500px;
