@@ -116,6 +116,15 @@ const playerController = (function () {
     ];
     let activePlayer = players[0];
 
+    //these could definitely be one function but i simply do not care enough anymore!
+    const setPlayerOneName = (name) => {
+        players[0].name = name;
+    }
+
+    const setPlayerTwoName = (name) => {
+        players[1].name = name;
+    }
+
     const getActivePlayer = () => activePlayer;
 
     const getRoundCount = () => roundCount;
@@ -127,7 +136,7 @@ const playerController = (function () {
             console.log(gameboard.printGameboard());
             gameboard.checkWin();
             if (gameboard.checkWin() === 1) {
-                displayController.setAlert(`${activePlayer.name} wins!`);
+                displayController.setWinModal(activePlayer);
                 return;
             } else if (gameboard.checkWin() === 2) {
                 displayController.setAlert("It's a tie!");
@@ -149,7 +158,7 @@ const playerController = (function () {
         activePlayer = players[0];
     }
 
-    return { playRound, getRoundCount, getActivePlayer, resetGame }
+    return { setPlayerOneName, setPlayerTwoName, playRound, getRoundCount, getActivePlayer, resetGame }
 
 })();
 
@@ -219,7 +228,11 @@ const displayController = (function () {
         p2Name.type = "text";
         let startButton = document.createElement("button");
         startButton.textContent = "Begin";
-        startButton.addEventListener("click", () => {
+        startButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            playerController.setPlayerOneName(p1Name.value);
+            playerController.setPlayerTwoName(p2Name.value);
+            displayController.setAlert(`${playerController.getActivePlayer().name}'s move.`);
             wrapper.style.display = "none";
         })
         wrapper.appendChild(text);
@@ -230,8 +243,26 @@ const displayController = (function () {
         wrapper.appendChild(startButton);
     }
 
-    const setWinModal = () => {
-
+    const setWinModal = (winningPlayer) => {
+        //we're not teaching you jQuery because you dont need it! :D
+        let container = document.querySelector(".modal");
+        let wrapper = document.createElement("div");
+        wrapper.classList.add("modal-container");
+        wrapper.style.backgroundColor = "gray";
+        container.appendChild(wrapper);
+        let text = document.createElement("div");
+        text.classList.add("modal-text");
+        text.textContent = `${winningPlayer.name} wins!`;
+        wrapper.appendChild(text);
+        let playAgainButton = document.createElement("button");
+        playAgainButton.textContent = "Play again";
+        playAgainButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            playerController.resetGame();
+            displayController.setAlert(`${playerController.getActivePlayer().name}'s move.`);
+            wrapper.style.display = "none";
+        });
+        wrapper.appendChild(playAgainButton);
     }
     
     return { initializeDisplay, setAlert, setOpeningModal, setWinModal }
@@ -239,4 +270,3 @@ const displayController = (function () {
 
 displayController.initializeDisplay();
 displayController.setOpeningModal();
-displayController.setAlert(`${playerController.getActivePlayer().name}'s move.`);
