@@ -136,10 +136,10 @@ const playerController = (function () {
             console.log(gameboard.printGameboard());
             gameboard.checkWin();
             if (gameboard.checkWin() === 1) {
-                displayController.setWinModal(activePlayer, "win");
+                displayController.setWinModal(activePlayer);
                 return;
             } else if (gameboard.checkWin() === 2) {
-                displayController.setWinModal(activePlayer, "tie");
+                displayController.setAlert("It's a tie!");
                 return;
             }
             activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -154,7 +154,7 @@ const playerController = (function () {
         gameboard.clearGameboard();
         displayController.initializeDisplay();
         displayController.setAlert(`${players[0].name}'s move.`);
-        roundCount = 0;
+        roundcount = 0;
         activePlayer = players[0];
     }
 
@@ -243,7 +243,7 @@ const displayController = (function () {
         wrapper.appendChild(startButton);
     }
 
-    const setWinModal = (winningPlayer, tieOrWin) => {
+    const setWinModal = (winningPlayer) => {
         //we're not teaching you jQuery because you dont need it! :D
         let container = document.querySelector(".modal");
         let wrapper = document.createElement("div");
@@ -252,11 +252,7 @@ const displayController = (function () {
         container.appendChild(wrapper);
         let text = document.createElement("div");
         text.classList.add("modal-text");
-        if (tieOrWin === "win") {
-            text.textContent = `${winningPlayer.name} wins!`;
-        } else if (tieOrWin === "tie") {
-            text.textContent = "It's a tie!";
-        }
+        text.textContent = `${winningPlayer.name} wins!`;
         wrapper.appendChild(text);
         let playAgainButton = document.createElement("button");
         playAgainButton.textContent = "Play again";
