@@ -1,5 +1,3 @@
-
-
 const gameboard = (function () {
     let _array = [];
     const rows = 3;
