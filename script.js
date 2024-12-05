@@ -28,8 +28,6 @@ const gameboard = (function () {
 
     const getGameboard = () => _array;
 
-    const getValueAtCoord = (x,y) => _array[x][y].getValue();
-
     const makeMove = (player, cellRow, cellColumn) => {
         let activeCell = _array[cellRow][cellColumn].getValue();
         _array[cellRow][cellColumn].fillCell(player);
@@ -52,13 +50,11 @@ const gameboard = (function () {
             //also ChatGPT did this "combo of winningCombos" thing pls explain it to me?
             for (const combo of winningCombos) {
                 if (combo.every(([x, y]) => _array[x][y].getValue() === activePlayer.playerValue)) {
-                    return 1;
+                    return "win";
                 }
             }
             //if board is filled with no win
-            if (roundCount == 8) {
-                return 2;
-            }
+            if (roundCount == 8) return "tie";
         }
     }
 
@@ -68,58 +64,40 @@ const gameboard = (function () {
 function Cell() {
     let value = 0;
 
-    const fillCell = (player) => {
-        value = player;
-    }
-
-    const clearCell = () => {
-        value = 0;
-    }
-
+    const fillCell = (player) => value = player;
+    const clearCell = () => value = 0;
     const getValue = () => value;
 
     return { fillCell, clearCell, getValue };
 }
 
 const playerController = (function () {
-    let playerOneName = "Player 1";
-    let playerTwoName = "Player 2";
     let roundCount = 0;
     const players = [
         {
-            name: playerOneName,
+            name: "Player 1",
             playerValue: "X"
         },
         {
-            name: playerTwoName,
+            name: "Player 2",
             playerValue: "O"
         }
     ];
     let activePlayer = players[0];
 
-    //these could definitely be one function but i simply do not care enough anymore!
-    const setPlayerOneName = (name) => {
-        players[0].name = name;
-    }
-
-    const setPlayerTwoName = (name) => {
-        players[1].name = name;
-    }
-
+    const setPlayerName = (index, name) => players[index].name = name;
     const getActivePlayer = () => activePlayer;
-
     const getRoundCount = () => roundCount;
 
     const playRound = (row, column) => {
-        let board = gameboard.getGameboard();
-        if (board[row][column].getValue() === 0) {
+        const board = gameboard.getGameboard();
+        const cell = board[row][column];
+        if (cell.getValue() === 0) {
             gameboard.makeMove(activePlayer.playerValue, row, column);
-            console.log(gameboard.printGameboard());
-            gameboard.checkWin();
-            if (gameboard.checkWin() === 1) {
+            if (gameboard.checkWin() === "win") {
                 displayController.setWinModal(activePlayer, "win");
                 return;
-            } else if (gameboard.checkWin() === 2) {
+            } else if (gameboard.checkWin() === "tie") {
                 displayController.setWinModal(activePlayer, "tie");
                 return;
             }
@@ -139,7 +117,7 @@ const playerController = (function () {
         activePlayer = players[0];
     }
 
-    return { setPlayerOneName, setPlayerTwoName, playRound, getRoundCount, getActivePlayer, resetGame }
+    return { setPlayerName, playRound, getRoundCount, getActivePlayer, resetGame }
 
 })();
 
