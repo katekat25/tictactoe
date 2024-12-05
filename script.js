@@ -210,7 +210,7 @@ const displayController = (function () {
         let wrapper = document.createElement("div");
         modalBackground.classList.add("modal-background");
         wrapper.classList.add("modal-container");
-        wrapper.style.backgroundColor = "gray";
+        wrapper.style.backgroundColor = "white";
         container.appendChild(modalBackground);
         modalBackground.appendChild(wrapper);
         let text = document.createElement("div");
@@ -256,7 +256,7 @@ const displayController = (function () {
         let wrapper = document.createElement("div");
         modalBackground.classList.add("modal-background");
         wrapper.classList.add("modal-container");
-        wrapper.style.backgroundColor = "gray";
+        wrapper.style.backgroundColor = "white";
         container.appendChild(modalBackground);
         modalBackground.appendChild(wrapper);
         let text = document.createElement("div");

@@ -1,15 +1,26 @@
-* {
-    color: red;
+@import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap');
+
+body {
+    font-family: "Kosugi Maru", sans-serif;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2rem;
 }
 
 .wrapper {
     display: flex;
     justify-content: space-around;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 .right-wrapper {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    width: 300px;
 }
 
 .modal-background {
@@ -33,6 +44,8 @@
     padding: 100px;
     gap: 20px;
     font-size: 3rem;
+    border-radius: 5px;
+    border: 1px solid black;
 }
 
 label {
@@ -41,6 +54,8 @@ label {
 
 input {
     height: 25px;
+    border-radius: 5px;
+    border: 1px solid gray;
 }
 
 #container {
@@ -56,6 +71,7 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 4rem;
 }
 
 .empty {
@@ -65,8 +81,12 @@ input {
 
 .alerts {
     border: 1px solid black;
+    font-size: 2rem;
 }
 
 button {
     height: 50px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    border: 1px solid gray;
 }
